@@ -1,6 +1,6 @@
 {
   "require": {
-    "php": "^7.0",
+    "php": "^7.4",
     "ext-pdo": "*",
     "php-activerecord/php-activerecord": "^1.2",
     "smarty/smarty": "^3.1",
