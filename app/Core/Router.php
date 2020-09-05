@@ -24,4 +24,15 @@ class Router {
 			$params,
 		];
 	}
+
+	public function createUrl(string $controller, string $action, array $params = []): string {
+		return "?" . http_build_query(array_merge([
+				$this->controllerKey => $controller,
+				$this->actionKey => $action,
+			], $params));
+	}
+
+	public function homeUrl(): string {
+		return $this->createUrl($this->homeRoute[0], $this->homeRoute[1]);
+	}
 }

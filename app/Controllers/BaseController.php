@@ -2,28 +2,20 @@
 
 namespace App\Controllers;
 
+use App\Core\App;
+use Smarty;
+
 abstract class BaseController {
-	public string $layout = 'main';
+	protected Smarty $smarty;
 
-	/**
-	 * @param string $body
-	 *
-	 * @return string
-	 *
-	 * @throws
-	 */
-	public function renderLayout($body = null) {
-		$path = LAYOUT_PATH . DIRECTORY_SEPARATOR . $this->layout . ".php";
+	public function __construct() {
+		$this->initSmarty();
+	}
 
-		if (!file_exists($path)) {
-			throw new \Exception("Layout file $path not found.");
-		}
+	public function redirect(string $url, int $code = 302) {
+		header("Location: $url", true, $code);
 
-		ob_start();
-
-		require $path;
-
-		return ob_get_clean();
+		return true;
 	}
 
 	/**
@@ -34,24 +26,22 @@ abstract class BaseController {
 	 * @throws
 	 */
 	public function render(string $viewName, array $params = []) {
-		$path = VIEW_PATH . DIRECTORY_SEPARATOR . $viewName . ".php";
+		$this->smarty->assign('app', App::class);
+		$this->smarty->assign('router', App::$router);
+		$this->smarty->assign('session', App::$session);
+		$this->smarty->assign('user', App::$user);
 
-		if (!file_exists($path)) {
-			throw new \Exception("View file $path not found.");
-		}
+		$this->smarty->assign($params);
 
-		extract($params);
+		$this->smarty->display($viewName);
+	}
 
-		ob_start();
-		require $path;
+	protected function initSmarty() {
+		$this->smarty = new Smarty();
 
-		$body = ob_get_clean();
-		ob_end_clean();
-
-		if ($this->layout === false) {
-			return $body;
-		}
-
-		return $this->renderLayout($body);
+		$this->smarty->setTemplateDir(VIEW_PATH);
+		$this->smarty->setCompileDir(realpath(STORAGE_PATH . "/smarty/templates_compiled"));
+		$this->smarty->setConfigDir(realpath(CONFIG_PATH . "/smarty"));
+		$this->smarty->setCacheDir(realpath(STORAGE_PATH . "/smarty/cache"));
 	}
 }

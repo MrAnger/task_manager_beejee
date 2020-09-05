@@ -1,3 +1,5 @@
+import Vue from 'vue';
+
 window._ = require('lodash');
 
 try {
@@ -7,6 +9,5 @@ try {
     require('bootstrap');
 } catch (e) {}
 
-window.axios = require('axios');
-
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+import BootstrapVue from "bootstrap-vue";
+Vue.use(BootstrapVue);

@@ -4,6 +4,7 @@ namespace App\Core;
 
 use App\Exceptions\InvalidRouteException;
 use App\Exceptions\NotFoundException;
+use App\User;
 
 class App {
 	public static Router $router;
@@ -11,6 +12,12 @@ class App {
 	public static Db $db;
 
 	public static Kernel $kernel;
+
+	public static Request $request;
+
+	public static Session $session;
+
+	public static User $user;
 
 	public static function init() {
 		static::bootstrap();
@@ -26,6 +33,9 @@ class App {
 		static::$router = new Router();
 		static::$db = new Db();
 		static::$kernel = new Kernel();
+		static::$request = new Request();
+		static::$session = new Session();
+		static::$user = new User();
 	}
 
 	public static function handleException(\Throwable $e) {

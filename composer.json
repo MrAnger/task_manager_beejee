@@ -1,7 +1,10 @@
 {
   "require": {
     "php": "^7.0",
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "php-activerecord/php-activerecord": "^1.2",
+    "smarty/smarty": "^3.1",
+    "pragmarx/ia-arr": "^7.3"
   },
   "autoload": {
     "psr-4": {
