@@ -15,7 +15,7 @@
                 ></b-form-input>
             </b-form-group>
 
-            <b-form-group label="Email">
+            <b-form-group label="Пароль">
                 <b-form-input
                         trim
                         required
